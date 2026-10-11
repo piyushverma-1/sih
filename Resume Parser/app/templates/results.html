@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}InternShala{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="results-header">
+        <h1>Resume Analysis</h1>
+        <a href="/" class="btn-secondary">Upload Another</a>
+    </div>
+
+    {% if error %}
+    <div class="error-message">
+        <h3>Error Processing Resume</h3>
+        <p>{{ error }}</p>
+    </div>
+    {% else %}
+    <div class="results-grid">
+        <div class="results-left">
+            {% if parsed_data and parsed_data.skills %}
+            <div class="card">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    {% set skills_list = parsed_data.skills.split(',') %}
+                    {% for skill in skills_list %}
+                    <span class="skill-tag">{{ skill.strip() }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if keywords %}
+            <div class="card keywords-card">
+                <h2>Extracted Keywords</h2>
+                <div class="keywords-container">
+                    {% for keyword in keywords %}
+                    <span class="keyword-tag">{{ keyword }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="results-right">
+            {% if ats_score %}
+            <div class="card ats-score-card">
+                <h2>ATS Score</h2>
+                <div class="score-circle">
+                    <div class="score-value" id="overallScore">{{ "%.0f"|format(ats_score.overall_score) }}</div>
+                    <div class="score-label">Overall</div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="score-item">
+                        <div class="score-header">
+                            <span>Format</span>
+                            <span>{{ "%.0f"|format(ats_score.format_score) }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" id="formatScore" style="width: {{ ats_score.format_score }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-header">
+                            <span>Content</span>
+                            <span>{{ "%.0f"|format(ats_score.content_score) }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" id="contentScore" style="width: {{ ats_score.content_score }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-header">
+                            <span>Keywords</span>
+                            <span>{{ "%.0f"|format(ats_score.keyword_score) }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" id="keywordScore" style="width: {{ ats_score.keyword_score }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-header">
+                            <span>Readability</span>
+                            <span>{{ "%.0f"|format(ats_score.readability_score) }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" id="readabilityScore" style="width: {{ ats_score.readability_score }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-item">
+                        <div class="score-header">
+                            <span>Sections</span>
+                            <span>{{ "%.0f"|format(ats_score.section_score) }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" id="sectionScore" style="width: {{ ats_score.section_score }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if ats_score.feedback %}
+                <div class="feedback-section">
+                    <h3>Feedback</h3>
+                    <p>{{ ats_score.feedback }}</p>
+                </div>
+                {% endif %}
+
+                {% if ats_score.suggestions %}
+                <div class="suggestions-section">
+                    <h3>Suggestions</h3>
+                    <p>{{ ats_score.suggestions }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

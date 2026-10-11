@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}InternShala{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="upload-section">
+        <h1>Upload Your Resume</h1>
+        <p class="subtitle">Upload your resume to check ATS score and skills</p>
+
+        <div class="upload-form">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="file-drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p>Drag & drop your resume here</p>
+                        <p class="or-text">or</p>
+                        <input type="file" id="fileInput" name="file" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png" required>
+                        <label for="fileInput" class="file-label">Browse Files</label>
+                        <p class="file-types">Supported: PDF, DOCX, JPG, PNG</p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="uploadBtn" disabled>
+                        <span class="btn-text">Upload Resume</span>
+                        <span class="spinner hidden" id="spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="error-message hidden" id="errorMessage"></div>
+    </div>
+</div>
+{% endblock %}
